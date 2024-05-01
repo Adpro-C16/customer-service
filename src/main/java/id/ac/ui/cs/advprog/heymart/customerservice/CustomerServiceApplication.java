@@ -29,18 +29,17 @@ public class CustomerServiceApplication {
     @Bean
     public CommandLineRunner demoCommandLineRunner() {
         return args -> {
-
             // Dummy data
             System.out.println("Running...");
-            Transaction t1 = new Transaction ("Market A", "Hilmy", null);
-            Transaction t2 = new Transaction ("Market B", "Hilmy Hebat", null);
+            Transaction t1 = new Transaction (1, "Market A", "Hilmy", null);
+            Transaction t2 = new Transaction (2, "Market B", "Hilmy Hebat", null);
+            Transaction t3 = new Transaction (2, "Market B", "Hilmy Hebat keren", null);
             Product p1 = new Product("Product A", 20.0, t1);
             Product p2 = new Product("Product B", 30.0, t1);
             Product p3 = new Product("Product B", 30.0, t2);
 
             productRepository.saveAll(List.of(p1, p2, p3));
-            transactionRepository.saveAll(List.of(t1, t2));
-
+            transactionRepository.saveAll(List.of(t1, t2, t3));
         };
     }
 }

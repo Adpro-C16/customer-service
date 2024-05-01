@@ -11,11 +11,14 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "markets")
+@Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long transactionId;
+
+    @Column(name = "marketId")
+    private long marketId;
 
     @Column(name = "marketName")
     private String marketName;
@@ -30,7 +33,8 @@ public class Transaction {
     private List<Product> productList;
 
     public Transaction() {}
-    public Transaction(String marketName, String customerName, String comment) {
+    public Transaction(long marketId, String marketName, String customerName, String comment) {
+        this.marketId = marketId;
         this.marketName = marketName;
         this.customerName = customerName;
         this.comment = comment;

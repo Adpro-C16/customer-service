@@ -24,6 +24,11 @@ public class TransactionService {
         return transactionRepository.findById(id);
     }
 
+    // Get transaction by market
+    public List<Transaction> findTransactionsByMarketId(long marketId) {
+        return transactionRepository.findByMarketId(marketId);
+    }
+
     // Add Comment to Transaction
     public Transaction addComment(Long transactionId, String comment) {
         Optional<Transaction> transactionData = transactionRepository.findById(transactionId);

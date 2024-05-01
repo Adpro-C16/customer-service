@@ -31,6 +31,16 @@ public class TransactionController {
                 .orElseGet(() -> new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/market/{marketId}") // New endpoint to find transactions by supermarket ID
+    public ResponseEntity<Object> findTransactionsByMarketId(@PathVariable Long marketId) {
+        List<Transaction> transactions = transactionService.findTransactionsByMarketId(marketId);
+        if (!transactions.isEmpty()) {
+            return new ResponseEntity<>(transactions, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No transactions found for market ID: " + marketId, HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/{id}/comment")
     public ResponseEntity<Object> addCommentToTransaction(@PathVariable Long id, @RequestBody String comment) {
         try {
