@@ -23,4 +23,17 @@ public class TransactionService {
     public Optional<Transaction> findById(@PathVariable long id) {
         return transactionRepository.findById(id);
     }
+
+    // Add Comment to Transaction
+    public Transaction addComment(Long transactionId, String comment) {
+        Optional<Transaction> transactionData = transactionRepository.findById(transactionId);
+        if (transactionData.isPresent()) {
+            Transaction transaction1 = transactionData.get();
+            transaction1.setComment(comment);
+            return transactionRepository.save(transaction1);
+        } else {
+            throw new IllegalArgumentException("Transaction not found with id: " + transactionId);
+        }
+    }
+
 }

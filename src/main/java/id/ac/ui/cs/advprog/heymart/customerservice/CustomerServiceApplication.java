@@ -32,8 +32,8 @@ public class CustomerServiceApplication {
 
             // Dummy data
             System.out.println("Running...");
-            Transaction t1 = new Transaction ("Market A", "Hilmy", "Keren");
-            Transaction t2 = new Transaction ("Market B", "Hilmy Hebat", "Keren banget ish");
+            Transaction t1 = new Transaction ("Market A", "Hilmy", null);
+            Transaction t2 = new Transaction ("Market B", "Hilmy Hebat", null);
             Product p1 = new Product("Product A", 20.0, t1);
             Product p2 = new Product("Product B", 30.0, t1);
             Product p3 = new Product("Product B", 30.0, t2);

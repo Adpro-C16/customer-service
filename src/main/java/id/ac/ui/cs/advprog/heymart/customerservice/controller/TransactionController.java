@@ -7,10 +7,7 @@ import id.ac.ui.cs.advprog.heymart.customerservice.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,18 +30,14 @@ public class TransactionController {
         return transaction.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND));
     }
-}
 
-@RestController
-@RequestMapping("/produ")
-class ProductController {
-    @Autowired
-    private ProductService productService;
-
-    @GetMapping
-    public ResponseEntity<Object> findAllTransaction() {
-        List<Product> transactionList = productService.findAll();
-        return new ResponseEntity<>(transactionList, HttpStatus.OK);
+    @PostMapping("/{id}/comment")
+    public ResponseEntity<Object> addCommentToTransaction(@PathVariable Long id, @RequestBody String comment) {
+        try {
+            Transaction updatedTransaction = transactionService.addComment(id, comment);
+            return new ResponseEntity<>(updatedTransaction, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
-
