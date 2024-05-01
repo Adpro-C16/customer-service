@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.controller;
 
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
+import id.ac.ui.cs.advprog.heymart.customerservice.service.ProductService;
 import id.ac.ui.cs.advprog.heymart.customerservice.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,3 +34,17 @@ public class TransactionController {
                 .orElseGet(() -> new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND));
     }
 }
+
+@RestController
+@RequestMapping("/produ")
+class ProductController {
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public ResponseEntity<Object> findAllTransaction() {
+        List<Product> transactionList = productService.findAll();
+        return new ResponseEntity<>(transactionList, HttpStatus.OK);
+    }
+}
+

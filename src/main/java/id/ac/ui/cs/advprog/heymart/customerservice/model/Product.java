@@ -1,30 +1,55 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.model;
 
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "PRODUCT")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "products")
 public class Product {
-
     @Id
-    @Column(name = "PRODUCT_ID")
-    private String productId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long productId;
 
-    @Column(name = "PRODUCT_NAME")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transactionId", referencedColumnName = "transactionId")
+    private Transaction transaction;
+
+    @Column(name = "productName")
     private String productName;
 
-    @Column(name = "PRODUCT_PRICE")
-    private Double productPrice;
+    @Column(name = "productPrice")
+    private double productPrice;
 
-    @Column(name = "SUPERMARKET_ID")
-    private Long supermarketId;
+    public Product() {}
+
+    public Product(String productName, double productPrice, Transaction transaction) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.transaction = transaction;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
 
 }

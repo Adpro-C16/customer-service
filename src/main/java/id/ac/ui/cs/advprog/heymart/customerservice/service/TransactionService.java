@@ -23,6 +23,4 @@ public class TransactionService {
     public Optional<Transaction> findById(@PathVariable long id) {
         return transactionRepository.findById(id);
     }
-
-
 }

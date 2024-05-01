@@ -1,38 +1,39 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.model;
 
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "transaction")
+@Table(name = "markets")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long transactionId;
 
-    @JoinColumn(name = "marketName")
+    @Column(name = "marketName")
     private String marketName;
 
-    @JoinColumn(name = "customer")
-    private String customer;
+    @Column(name = "customerName")
+    private String customerName;
 
-    @JoinColumn(name = "komentar")
+    @Column(name = "comment")
     private String comment;
 
-    @JoinColumn(name = "productList")
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<Product> productList;
 
     public Transaction() {}
-
-    public Transaction(String marketName, String customer, String comment) {
+    public Transaction(String marketName, String customerName, String comment) {
         this.marketName = marketName;
-        this.customer = customer;
+        this.customerName = customerName;
         this.comment = comment;
+        this.productList = new ArrayList<>();
     }
 }
