@@ -9,11 +9,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "transaksi")
+@Table(name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int transactionId;
+    private long transactionId;
 
     @JoinColumn(name = "marketName")
     private String marketName;
