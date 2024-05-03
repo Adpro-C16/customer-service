@@ -17,4 +17,13 @@ public class ShoppingCartDto {
     private Long supermarketId = -1L;
 
     private List<CartItemDto> cartItems;
+
+    public double getTotalPrice(){
+        double totalPrice = 0;
+        for (CartItemDto item : cartItems){
+            totalPrice += item.getTotalPrice();
+        }
+
+        return totalPrice;
+    }
 }

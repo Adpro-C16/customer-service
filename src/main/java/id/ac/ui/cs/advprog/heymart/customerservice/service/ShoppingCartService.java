@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.heymart.customerservice.service;
 
 import id.ac.ui.cs.advprog.heymart.customerservice.dto.ShoppingCartDto;
 import id.ac.ui.cs.advprog.heymart.customerservice.dto.request.CartItemRequest;
-import id.ac.ui.cs.advprog.heymart.customerservice.model.ShoppingCart;
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
 import org.apache.coyote.BadRequestException;
 
 public interface ShoppingCartService {
@@ -12,4 +12,5 @@ public interface ShoppingCartService {
 
     ShoppingCartDto getCartDtoByUserId(Long userId);
 
+    Transaction checkout(Long userId);
 }

@@ -1,9 +1,11 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.service;
 
+import id.ac.ui.cs.advprog.heymart.customerservice.dto.CartItemDto;
 import id.ac.ui.cs.advprog.heymart.customerservice.dto.ShoppingCartDto;
 import id.ac.ui.cs.advprog.heymart.customerservice.dto.request.CartItemRequest;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.CartItem;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.ShoppingCart;
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
 import id.ac.ui.cs.advprog.heymart.customerservice.repository.CartItemRepository;
 import id.ac.ui.cs.advprog.heymart.customerservice.repository.ShoppingCartRepository;
 import id.ac.ui.cs.advprog.heymart.customerservice.state.EmptyCart;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -105,6 +108,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDto getCartDtoByUserId(Long userId) {
         return createShoppingCartDto(getCartByUserId(userId));
+    }
+
+    @Override
+    public Transaction checkout(Long userId) {
+        // TODO: Validate that checkout can be done (consider user's balance too)
+        // TODO: Decrease user's balance if balance >= total
+        // TODO: Create a new transaction
+        List<CartItemDto> cartItems = cartItemRepository.getCartItemDtoByUserId(userId);
+        // TODO: For every items in cartItems, create a new purchase item, adding them to transaction
+        // TODO: Save them all
+        ShoppingCart cart = getCartByUserId(userId);
+        List<CartItem> items = cart.checkout();
+        cartItemRepository.deleteAll(items);
+        return null;
     }
 
     private ShoppingCart getCartByUserId(Long userId) {
