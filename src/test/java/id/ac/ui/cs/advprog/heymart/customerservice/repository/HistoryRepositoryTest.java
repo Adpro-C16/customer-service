@@ -4,20 +4,22 @@ import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
-
-
 
 
 @ExtendWith(MockitoExtension.class)
 public class HistoryRepositoryTest {
+
+    @Mock
+    private HistoryRepository historyRepository;
     History history1;
     History history2;
     History history3;
@@ -73,8 +75,8 @@ public class HistoryRepositoryTest {
         expectedHistoryList.add(historyList.get(0));
         expectedHistoryList.add(historyList.get(2));
 
-        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(expectedHistoryList));
-        Optional<List<History>> foundHistories = historyRepository.findByCustId(custId);
+        when(historyRepository.findByCustId(supermarketId)).thenReturn(Optional.of(expectedHistoryList));
+        Optional<List<History>> foundHistories = historyRepository.findByCustId(supermarketId);
 
         assertEquals(expectedHistoryList, foundHistories.get());
 
