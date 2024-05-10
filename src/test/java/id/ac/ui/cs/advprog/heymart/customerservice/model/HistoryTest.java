@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HistoryTest {
@@ -44,8 +46,8 @@ public class HistoryTest {
         Product product2 = new Product();
         purchases.add(product1);
         purchases.add(product2);
-        history.setPurchases(purchases);
-        assertEquals(purchases, history.getPurchases());
+        history.setProductList(purchases);
+        assertEquals(purchases, history.getProductList());
     }
 
     @Test
