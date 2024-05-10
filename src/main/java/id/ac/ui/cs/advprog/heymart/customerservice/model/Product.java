@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +9,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transactionId", referencedColumnName = "transactionId")
+    private Transaction transaction;
+
     @Column(name = "productName")
     private String productName;
 
@@ -18,9 +21,10 @@ public class Product {
 
     public Product() {}
 
-    public Product(String productName, double productPrice) {
+    public Product(String productName, double productPrice, Transaction transaction) {
         this.productName = productName;
         this.productPrice = productPrice;
+        this.transaction = transaction;
     }
 
     public Long getProductId() {
