@@ -3,9 +3,13 @@ package id.ac.ui.cs.advprog.heymart.customerservice.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+
+import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HistoryTest {
+
+    private History history;
 
     @BeforeEach
     void setUp(){
@@ -14,7 +18,7 @@ public class HistoryTest {
 
     @Test
     void testGetSetIdHistory(){
-        Long idHistory = 1L;
+        Long idHistory = 1344L;
         history.setIdHistory(idHistory);
         assertEquals(idHistory, history.getIdHistory());
     }
@@ -33,7 +37,6 @@ public class HistoryTest {
         assertEquals(custId, history.getCustId());
     }
 
-
     @Test
     void testProductList(){
         List<Product> purchases = new ArrayList<>();
@@ -48,8 +51,8 @@ public class HistoryTest {
     @Test
     void testTotalPrice(){
         double totalSpent = 50.0;
-        history.setTotal(totalSpent);
-        assertEquals(totalSpent, history.getTotal());
+        history.setTotalPrice(totalSpent);
+        assertEquals(totalSpent, history.getTotalPrice());
     }
 
 }
