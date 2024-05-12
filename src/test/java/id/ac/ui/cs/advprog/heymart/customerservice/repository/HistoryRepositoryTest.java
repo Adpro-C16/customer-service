@@ -75,8 +75,8 @@ public class HistoryRepositoryTest {
         expectedHistoryList.add(historyList.get(0));
         expectedHistoryList.add(historyList.get(2));
 
-        when(historyRepository.findByCustId(supermarketId)).thenReturn(Optional.of(expectedHistoryList));
-        Optional<List<History>> foundHistories = historyRepository.findByCustId(supermarketId);
+        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(expectedHistoryList));
+        Optional<List<History>> foundHistories = historyRepository.findBySupermarketId(supermarketId);
 
         assertEquals(expectedHistoryList, foundHistories.get());
 
