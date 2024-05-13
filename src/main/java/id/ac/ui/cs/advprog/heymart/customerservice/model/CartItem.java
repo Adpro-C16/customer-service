@@ -7,24 +7,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "CART_ITEM")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class CartItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "USER_ID")
+    private Long userId;
+
     @Column(name = "PRODUCT_ID")
     private String productId;
 
-    @Column(name = "PRODUCT_NAME")
-    private String productName;
-
-    @Column(name = "PRODUCT_PRICE")
-    private Double productPrice;
+    @Column(name = "AMOUNT")
+    private Integer amount;
 
     @Column(name = "SUPERMARKET_ID")
     private Long supermarketId;
-
 }
