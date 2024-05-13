@@ -3,8 +3,12 @@ package id.ac.ui.cs.advprog.heymart.customerservice.controller;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
 import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
+import id.ac.ui.cs.advprog.heymart.customerservice.controller.HistoryController;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -15,10 +19,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+
+
+@ExtendWith(MockitoExtension.class)
 public class HistoryControllerTest {
 
     @Mock
     private HistoryServiceImpl historyService;
+    @InjectMocks
+    private HistoryController historyController;
 
 
     @Test
@@ -33,6 +42,7 @@ public class HistoryControllerTest {
         assertEquals(history, response.getBody());
     }
 
+
     @Test
     public void testGetHistoryByIdNotFound() {
         Long id = 1L;
@@ -42,6 +52,7 @@ public class HistoryControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("History with id " + id + " not found.", response.getBody());
     }
+
 
     @Test
     public void testAddNewHistory() {
