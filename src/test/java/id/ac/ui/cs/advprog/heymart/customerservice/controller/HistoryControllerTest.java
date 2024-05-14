@@ -60,24 +60,21 @@ public class HistoryControllerTest {
         Long supermarketId = 2L;
         double totalPrice = 200.0;
         Long idHistory = 3L;
+        Product product = new Product();
         List<Product> productList = new ArrayList<>();
+        productList.add(product);
 
-        History history= new History();
-        history.setIdHistory(idHistory);
-        history.setSupermarketId(supermarketId);
-        history.setCustId(custId);
-        history.setProductList(productList);
-        history.setTotalPrice(totalPrice);
+        History history= new History(idHistory,supermarketId,custId, totalPrice, productList);
 
 
-        when(historyService.addNewHistory(idHistory, custId, supermarketId, productList, totalPrice)).thenReturn(history);
+        when(historyService.addNewHistory(idHistory, custId, supermarketId, totalPrice, productList)).thenReturn(history);
 
         HashMap<String, Object> request = new HashMap<>();
-        request.put("custId", custId);
-        request.put("supemarketId", supermarketId);
-        request.put("productList", productList);
-        request.put("totalPrice", totalPrice);
         request.put("idHistory", idHistory);
+        request.put("custId", custId);
+        request.put("supeMarketId", supermarketId);
+        request.put("totalPrice", totalPrice);
+        request.put("productList", productList);
 
         ResponseEntity<?> response = historyController.addNewHistory(request);
         assertEquals(HttpStatus.OK, response.getStatusCode());

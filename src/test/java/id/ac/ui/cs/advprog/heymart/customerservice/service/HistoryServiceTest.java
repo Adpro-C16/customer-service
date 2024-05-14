@@ -74,7 +74,7 @@ public class HistoryServiceTest {
     @Test
     void testAddNewHistory() {
         when(historyRepository.save(any())).thenReturn(history);
-        History result = historyService.addNewHistory(2L,1L, 1L, productList, 250.0);
+        History result = historyService.addNewHistory(2L,1L, 1L, 250.0, productList);
         assertEquals(history, result);
     }
 

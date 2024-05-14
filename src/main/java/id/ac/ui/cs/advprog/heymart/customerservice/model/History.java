@@ -28,6 +28,17 @@ public class History {
 
     private double totalPrice;
 
+    public History(Long idHistory, Long custId, Long supermarketId, double totalPrice, List<Product> productList ) {
+        this.productList = productList;
+        this.idHistory = idHistory;
+        this.supermarketId = supermarketId;
+        this.custId = custId;
+        this.totalPrice = totalPrice;
+    }
+
     public History(){}
+
+
+
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface HistoryService {
     History getHistoryById(Long id);
-    History addNewHistory(Long idHistory, Long ownerId, Long marketId, List<Product> purchases, double totalSpent);
+    History addNewHistory(Long idHistory, Long ownerId, Long marketId, double totalPrice, List<Product> productList);
     void deleteHistory(Long id);
     boolean existsById(Long id);
 

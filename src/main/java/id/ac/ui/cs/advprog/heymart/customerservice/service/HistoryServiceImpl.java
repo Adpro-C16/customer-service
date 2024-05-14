@@ -20,7 +20,7 @@ public class HistoryServiceImpl implements HistoryService{
     }
 
     @Override
-    public History addNewHistory(Long idhistory, Long custId, Long superMarketId, List<Product> productList, double totalPrice) {
+    public History addNewHistory(Long idhistory, Long custId, Long superMarketId, double totalPrice, List<Product> productList) {
         History history = new History();
         history.setCustId(custId);
         history.setProductList(productList);
