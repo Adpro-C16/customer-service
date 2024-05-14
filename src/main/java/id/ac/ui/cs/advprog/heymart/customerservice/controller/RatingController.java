@@ -30,13 +30,13 @@ public class RatingController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addNewRating(@RequestBody HashMap<String, Object> request) {
-        Long ownerId = Long.parseLong(request.get("ownerId").toString());
-        Long marketId = Long.parseLong(request.get("marketId").toString());
-        int rating = Integer.parseInt(request.get("rating").toString());
+        Long custId = Long.parseLong(request.get("custId").toString());
+        Long marketId = Long.parseLong(request.get("supermarketId").toString());
+        int score = Integer.parseInt(request.get("score").toString());
         String review = request.get("review").toString();
 
-        Rating newRating = ratingService.addNewRating(ownerId, marketId, rating, review);
-        return ResponseEntity.ok("New rating added with id: " + newRating.getId());
+        Rating newRating = ratingService.addNewRating(custId, marketId, score, review);
+        return ResponseEntity.ok("Success add new rating ith id: " + newRating.getId());
     }
 
     @DeleteMapping("/delete/{id}")

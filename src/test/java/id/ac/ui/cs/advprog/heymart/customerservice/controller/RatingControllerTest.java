@@ -72,6 +72,9 @@ public class RatingControllerTest {
         assertEquals("Success add new rating ith id: " + newRating.getId(), response.getBody());
     }
 
+
+
+
     @Test
     public void testDeleteRating() {
         Long id = 1L;
