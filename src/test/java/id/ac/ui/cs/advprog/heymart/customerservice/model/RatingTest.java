@@ -24,8 +24,8 @@ public class RatingTest {
     @Test
     public void testGetSetMarketId() {
         Long supermarketId = 456L;
-        rating.setsupermarketId(supermarketId);
-        assertEquals(supermarketId, rating.getsupermarketId());
+        rating.setSupermarketId(supermarketId);
+        assertEquals(supermarketId, rating.getSupermarketId());
     }
 
     @Test
@@ -49,8 +49,8 @@ public class RatingTest {
         int score = 10;
         String review = "Good";
         Rating rating = new Rating(custId, supermarketId, score, review);
-        assertEquals(ownerId, rating.getCustId());
-        assertEquals(marketId, rating.getSupermarketId());
+        assertEquals(custId, rating.getCustId());
+        assertEquals(supermarketId, rating.getSupermarketId());
         assertEquals(score, rating.getScore());
         assertEquals(review, rating.getReview());
     }
