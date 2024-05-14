@@ -7,7 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,5 +88,52 @@ public class RatingServiceTest {
         boolean exists = ratingService.existsById(ratingId);
 
         assertTrue(exists);
+    }
+
+    @Test
+    public void testGetAllRatings() throws ExecutionException, InterruptedException {
+        Rating rating1 = new Rating(1L, 2L, 4, "Good");
+        Rating rating2 = new Rating(3L, 4L, 5, "Excellent");
+
+        List<Rating> ratings = Arrays.asList(rating1, rating2);
+
+        when(ratingRepository.findAll()).thenReturn(ratings);
+
+        CompletableFuture<List<Rating>> future = ratingService.getAllRatings();
+        List<Rating> result = future.get();
+
+        assertEquals(ratings, result);
+    }
+
+    @Test
+    public void testGetRatingsByCustId() throws ExecutionException, InterruptedException {
+        Long custId = 1L;
+        Rating rating1 = new Rating(custId, 2L, 4, "Good");
+        Rating rating2 = new Rating(custId, 3L, 5, "Excellent");
+
+        List<Rating> ratings = Arrays.asList(rating1, rating2);
+
+        when(ratingRepository.findByCustId(custId)).thenReturn(Optional.of(ratings));
+
+        CompletableFuture<List<Rating>> future = ratingService.getRatingsByCustId(custId);
+        List<Rating> result = future.get();
+
+        assertEquals(ratings, result);
+    }
+
+    @Test
+    public void testGetRatingsByMarketId() throws ExecutionException, InterruptedException {
+        Long supermarketId = 2L;
+        Rating rating1 = new Rating(1L, supermarketId, 4, "Good");
+        Rating rating2 = new Rating(3L, supermarketId, 5, "Excellent");
+
+        List<Rating> ratings = Arrays.asList(rating1, rating2);
+
+        when(ratingRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(ratings));
+
+        CompletableFuture<List<Rating>> future = ratingService.getRatingsBySupermarketId(supermarketId);
+        List<Rating> result = future.get();
+
+        assertEquals(ratings, result);
     }
 }

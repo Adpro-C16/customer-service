@@ -6,6 +6,9 @@ import id.ac.ui.cs.advprog.heymart.customerservice.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class RatingServiceImpl implements RatingService {
 
@@ -33,4 +36,6 @@ public class RatingServiceImpl implements RatingService {
     public boolean existsById(Long id) {
         return ratingRepository.existsById(id);
     }
+
+
 }
