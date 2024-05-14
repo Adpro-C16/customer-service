@@ -11,6 +11,8 @@ public interface RatingService {
     Rating addNewRating(Long ownerId, Long marketId, int score, String review);
     void deleteRating(Long id);
     boolean existsById(Long id);
-
+    CompletableFuture<List<Rating>> getAllRatings();
+    CompletableFuture<List<Rating>> getRatingsByCustId(Long ownerId);
+    CompletableFuture<List<Rating>> getRatingsBySupermarketId(Long marketId);
 
 }
