@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class HistoryServiceImpl implements HistoryService{
@@ -39,6 +40,27 @@ public class HistoryServiceImpl implements HistoryService{
     @Override
     public boolean existsById(Long id) {
         return historyRepository.existsById(id);
+    }
+
+    @Override
+    public CompletableFuture<List<History>> getAllHistory() {
+        List<History> allHistory = historyRepository.findAll();
+        allHistory.forEach(history -> history.getProductList().size());
+        return CompletableFuture.completedFuture(allHistory);
+    }
+
+    @Override
+    public CompletableFuture<List<History>> getHistoryByCustId(Long custId) {
+        List<History> historyByCustId = historyRepository.findByCustId(custId).orElse(List.of());
+        historyByCustId.forEach(history -> history.getProductList().size());
+        return CompletableFuture.completedFuture(historyByCustId);
+    }
+
+    @Override
+    public CompletableFuture<List<History>> getHistoryBySupermarketId(Long supermarketId) {
+        List<History> historyByMarketId = historyRepository.findBySupermarketId(supermarketId).orElse(List.of());
+        historyByMarketId.forEach(history -> history.getProductList().size());
+        return CompletableFuture.completedFuture(historyByMarketId);
     }
 
 

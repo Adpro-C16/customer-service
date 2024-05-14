@@ -49,16 +49,16 @@ public class RatingController {
         }
     }
 
-    @GetMapping("/ownerrating/{ownerId}")
-    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingByOwnerId(@PathVariable Long ownerId) {
-        return ratingService.getRatingsByCustId(ownerId)
+    @GetMapping("/custrating/{custId}")
+    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingByCustId(@PathVariable Long custId) {
+        return ratingService.getRatingsByCustId(custId)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(this::handleGetRatingException);
     }
 
-    @GetMapping("/marketrating/{marketId}")
-    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingByMarketId(@PathVariable Long marketId) {
-        return ratingService.getRatingsBySupermarketId(marketId)
+    @GetMapping("/supermarketrating/{supermarketId}")
+    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingBySupermarketId(@PathVariable Long supermarketId) {
+        return ratingService.getRatingsBySupermarketId(supermarketId)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(this::handleGetRatingException);
     }

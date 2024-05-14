@@ -37,22 +37,6 @@ public class RatingServiceImpl implements RatingService {
         return ratingRepository.existsById(id);
     }
 
-
-    @Override
-    public CompletableFuture<List<Rating>> getAllRatings() {
-        return CompletableFuture.supplyAsync(() -> ratingRepository.findAll());
-    }
-
-    @Override
-    public CompletableFuture<List<Rating>> getRatingsByCustId(Long custId) {
-        return CompletableFuture.supplyAsync(() -> ratingRepository.findByCustId(custId)
-                .orElseGet(() -> List.of()));
-    }
-
-    @Override
-    public CompletableFuture<List<Rating>> getRatingsBySupermarketId(Long marketId) {
-        return CompletableFuture.supplyAsync(() -> ratingRepository.findBySupermarketId(marketId)
-                .orElseGet(() -> List.of()));
-    }
+    
 
 }

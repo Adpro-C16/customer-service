@@ -13,13 +13,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+
+
 
 @ExtendWith(MockitoExtension.class)
 public class HistoryServiceTest {
@@ -93,6 +99,53 @@ public class HistoryServiceTest {
         when(historyRepository.existsById(1L)).thenReturn(true);
         boolean result = historyService.existsById(1L);
         assertTrue(result);
+    }
+
+    @Test
+    public void testGetAllHistory() throws ExecutionException, InterruptedException {
+        History history1 = new History();
+        History history2 = new History();
+
+        List<History> histories = Arrays.asList(history1, history2);
+
+        when(historyRepository.findAll()).thenReturn(histories);
+
+        CompletableFuture<List<History>> future = historyService.getAllHistory();
+        List<History> result = future.get();
+
+        assertEquals(histories, result);
+    }
+
+    @Test
+    public void testGetHistoryByCustId() throws ExecutionException, InterruptedException {
+        Long custId = 1L;
+        History history1 = new History();
+        History history2 = new History();
+
+        List<History> histories = Arrays.asList(history1, history2);
+
+        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(histories));
+
+        CompletableFuture<List<History>> future = historyService.getHistoryByCustId(custId);
+        List<History> result = future.get();
+
+        assertEquals(histories, result);
+    }
+
+    @Test
+    public void testGetHistoryBySupermarketId() throws ExecutionException, InterruptedException {
+        Long supermarketId = 2L;
+        History history1 = new History();
+        History history2 = new History();
+
+        List<History> histories = Arrays.asList(history1, history2);
+
+        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(histories));
+
+        CompletableFuture<List<History>> future = historyService.getHistoryBySupermarketId(supermarketId);
+        List<History> result = future.get();
+
+        assertEquals(histories, result);
     }
 
 
