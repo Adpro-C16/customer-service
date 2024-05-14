@@ -49,6 +49,27 @@ public class RatingController {
         }
     }
 
+    @GetMapping("/ownerrating/{ownerId}")
+    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingByOwnerId(@PathVariable Long ownerId) {
+        return ratingService.getRatingsByCustId(ownerId)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleGetRatingException);
+    }
+
+    @GetMapping("/marketrating/{marketId}")
+    public CompletableFuture<ResponseEntity<List<Rating>>> getRatingByMarketId(@PathVariable Long marketId) {
+        return ratingService.getRatingsBySupermarketId(marketId)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleGetRatingException);
+    }
+
+    @GetMapping("/getAll")
+    public CompletableFuture<ResponseEntity<List<Rating>>> getAllRatings() {
+        return ratingService.getAllRatings()
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleGetRatingException);
+    }
+
     private ResponseEntity<List<Rating>> handleGetRatingException(Throwable throwable) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(null);

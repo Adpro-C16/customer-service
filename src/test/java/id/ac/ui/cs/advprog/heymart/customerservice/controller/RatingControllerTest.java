@@ -73,8 +73,6 @@ public class RatingControllerTest {
     }
 
 
-
-
     @Test
     public void testDeleteRating() {
         Long id = 1L;
