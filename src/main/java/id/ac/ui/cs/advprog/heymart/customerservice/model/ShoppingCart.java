@@ -45,4 +45,12 @@ public class ShoppingCart {
     public List<CartItem> checkout(){
         return state.checkout(this);
     }
+
+    public CartItem getFirst() {
+        if (cartItems != null && !cartItems.isEmpty()) {
+            return cartItems.get(0);
+        } else {
+            return null; 
+        }
+    }
 }

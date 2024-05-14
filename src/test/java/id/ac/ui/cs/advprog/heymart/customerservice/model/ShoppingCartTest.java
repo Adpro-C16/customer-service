@@ -44,7 +44,7 @@ public class ShoppingCartTest {
     void testAddItemEmptyCart(){
         assertEquals(-1L, cart.getSupermarketId());
         cart.addItem(item);
-        assertEquals(cart.getCartItems().getFirst(), item);
+        assertEquals(cart.getFirst(), item);
         assertEquals(3L, cart.getSupermarketId());
         assertInstanceOf(SupermarketCart.class, cart.getState());
 

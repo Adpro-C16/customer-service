@@ -145,7 +145,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (cart.getCartItems().isEmpty()){
             cart.setState(new EmptyCart(cart));
         } else {
-            Long supermarketId = cart.getCartItems().getFirst().getSupermarketId();
+            Long supermarketId = cart.getFirst().getSupermarketId();
             cart.setState(new SupermarketCart(cart, supermarketId));
         }
     }
