@@ -25,8 +25,8 @@ public class TransactionService {
     }
 
     // Get transaction by market
-    public List<Transaction> findTransactionsByMarketId(long marketId) {
-        return transactionRepository.findByMarketId(marketId);
+    public List<Transaction> findTransactionsByMarketId(long supermarketId) {
+        return transactionRepository.findByMarketId(supermarketId);
     }
 
     // Add Comment to Transaction
@@ -40,5 +40,4 @@ public class TransactionService {
             throw new IllegalArgumentException("Transaction not found with id: " + transactionId);
         }
     }
-
 }

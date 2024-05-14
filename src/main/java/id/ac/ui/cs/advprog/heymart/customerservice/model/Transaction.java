@@ -27,8 +27,11 @@ public class Transaction {
     private Long userId;
 
     @Column(name = "SUPERMARKET_ID")
-    private Long supermarketId;
+    private Long marketId;
 
+    @Column(name = "comment")
+    private String comment;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "TRANSACTION_ID")
     private List<PurchasedItem> purchasedItems;

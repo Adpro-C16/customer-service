@@ -32,12 +32,12 @@ public class TransactionController {
     }
 
     @GetMapping("/market/{marketId}") // New endpoint to find transactions by supermarket ID
-    public ResponseEntity<Object> findTransactionsByMarketId(@PathVariable Long marketId) {
-        List<Transaction> transactions = transactionService.findTransactionsByMarketId(marketId);
+    public ResponseEntity<Object> findTransactionsByMarketId(@PathVariable Long supermarketId) {
+        List<Transaction> transactions = transactionService.findTransactionsByMarketId(supermarketId);
         if (!transactions.isEmpty()) {
             return new ResponseEntity<>(transactions, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("No transactions found for market ID: " + marketId, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No transactions found for market ID: " + supermarketId, HttpStatus.NOT_FOUND);
         }
     }
 
