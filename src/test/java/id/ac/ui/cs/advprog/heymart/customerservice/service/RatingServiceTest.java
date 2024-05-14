@@ -4,22 +4,29 @@ import id.ac.ui.cs.advprog.heymart.customerservice.model.Rating;
 import id.ac.ui.cs.advprog.heymart.customerservice.repository.RatingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+
 
 
 public class RatingServiceTest {
+
 
     @Mock
     private RatingRepository ratingRepository;
@@ -52,7 +59,7 @@ public class RatingServiceTest {
         String review = "just so so";
         Rating rating1 = new Rating(custId, supermarketId, score, review);
 
-        when(ratingRepository.save(any(Rating.class))).thenReturn(rating1);
+        when(ratingRepository.save(ArgumentMatchers.any(Rating.class))).thenReturn(rating1);
 
         Rating addRating1 = ratingService.addNewRating(custId, supermarketId, score, review);
 
