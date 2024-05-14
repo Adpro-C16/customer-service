@@ -6,6 +6,7 @@ import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryService;
 import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 @RestController
@@ -74,6 +76,31 @@ public class HistoryController {
         }
     }
 
+    @GetMapping("/all")
+    public CompletableFuture<ResponseEntity<List<History>>> getAllHistory() {
+        return historyService.getAllHistory()
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleException);
+    }
+
+    @GetMapping("/cust/{custId}")
+    public CompletableFuture<ResponseEntity<List<History>>> getHistoryByCustId(@PathVariable Long custId) {
+        return historyService.getHistoryByCustId(custId)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleException);
+    }
+
+    @GetMapping("/supermarket/{supermarketId}")
+    public CompletableFuture<ResponseEntity<List<History>>> getHistoryBySupermarketId(@PathVariable Long supermarketId) {
+        return historyService.getHistoryByCustId(supermarketId)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(this::handleException);
+    }
+
+    private ResponseEntity<List<History>> handleException(Throwable throwable) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
+    }
 
 
 }

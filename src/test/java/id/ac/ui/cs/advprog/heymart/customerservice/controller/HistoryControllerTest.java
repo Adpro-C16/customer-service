@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.heymart.customerservice.controller;
 
 import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
+import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
 import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
 import id.ac.ui.cs.advprog.heymart.customerservice.controller.HistoryController;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -101,6 +104,5 @@ public class HistoryControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("History with id " + idHistory + " not found.", response.getBody());
     }
-
-
+    
 }
