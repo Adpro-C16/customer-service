@@ -61,7 +61,7 @@ public class ShoppingCartTest {
         cart.addItem(item);
         cart.addItem(newItem);
 
-        assertEquals(cart.getCartItems().getFirst(), item);
+        assertEquals(cart.getFirst(), item);
         assertEquals(cart.getCartItems().get(1), newItem);
     }
 
