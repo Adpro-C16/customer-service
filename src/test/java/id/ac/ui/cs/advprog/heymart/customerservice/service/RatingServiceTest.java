@@ -32,7 +32,6 @@ public class RatingServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test
     public void testGetRatingById() {
         Long ratingId = 789L;
