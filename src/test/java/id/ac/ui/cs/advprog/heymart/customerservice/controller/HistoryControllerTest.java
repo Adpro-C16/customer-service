@@ -22,6 +22,24 @@ import java.util.concurrent.CompletableFuture;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
+
 
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +74,6 @@ public class HistoryControllerTest {
         assertEquals("History with id " + id + " not found.", response.getBody());
     }
 
-
     @Test
     public void testAddNewHistory() {
         Long custId = 1L;
@@ -75,14 +92,16 @@ public class HistoryControllerTest {
         HashMap<String, Object> request = new HashMap<>();
         request.put("idHistory", idHistory);
         request.put("custId", custId);
-        request.put("supeMarketId", supermarketId);
+        request.put("supermarketId", supermarketId);
         request.put("totalPrice", totalPrice);
         request.put("productList", productList);
+
 
         ResponseEntity<?> response = historyController.addNewHistory(request);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success add new history with id: " + history.getIdHistory(), response.getBody());
     }
+
 
     @Test
     public void testDeleteHistory() {

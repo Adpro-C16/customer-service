@@ -3,8 +3,6 @@ package id.ac.ui.cs.advprog.heymart.customerservice.controller;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
 import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryService;
-import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+
+
+
+
 
 
 @RestController
@@ -31,13 +32,13 @@ public class HistoryController {
     }
 
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getHistoryById(@PathVariable Long id) {
-        if (historyService.existsById(id)) {
-            History history = historyService.getHistoryById(id);
+    @GetMapping("/get/{idHistory}")
+    public ResponseEntity<?> getHistoryById(@PathVariable Long idHistory) {
+        if (historyService.existsById(idHistory)) {
+            History history = historyService.getHistoryById(idHistory);
             return ResponseEntity.ok(history);
         } else {
-            return ResponseEntity.badRequest().body("History with id " + id + " not found.");
+            return ResponseEntity.badRequest().body("History with id " + idHistory + " not found.");
         }
     }
 
@@ -45,28 +46,16 @@ public class HistoryController {
     public ResponseEntity<?> addNewHistory(@RequestBody HashMap<String, Object> request) {
         Long idHistory = Long.parseLong(request.get("idHistory").toString());
         Long custId = Long.parseLong(request.get("custId").toString());
-        Long marketId = Long.parseLong(request.get("marketId").toString());
-        double totalSpent = Double.parseDouble(request.get("totalSpent").toString());
-        List<Product> purchases = (List<Product>) request.get("purchases");
+        Long supermarketId = Long.parseLong(request.get("supermarketId").toString());
+        double totalPrice = Double.parseDouble(request.get("totalPrice").toString());
+        List<Product> productList = (List<Product>) request.get("productList");
 
-        History newHistory = historyService.addNewHistory(idHistory, custId, marketId, totalSpent, purchases);
+        History newHistory = historyService.addNewHistory(idHistory, custId, supermarketId, totalPrice, productList);
         return ResponseEntity.ok("Success add new history with id: " + newHistory.getIdHistory());
     }
 
 
-//    @PostMapping("/add")
-//    public ResponseEntity<?> addNewHistory(@RequestBody HashMap<String, Object> request) {
-//        Long idHistory = Long.parseLong(request.get("idHistory").toString());
-//        Long custId = Long.parseLong(request.get("custId").toString());
-//        Long marketId = Long.parseLong(request.get("marketId").toString());
-//        List<Product> purchases = (List<Product>) request.get("purchases");
-//        double totalSpent = Double.parseDouble(request.get("totalSpent").toString());
-//
-//        History newHistory = historyService.addNewHistory(idHistory, custId, marketId, totalSpent, purchases);
-//        return ResponseEntity.ok("New history added with id: " + newHistory.getIdHistory());
-//    }
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{idHistory}")
     public ResponseEntity<?> deleteHistory(@PathVariable Long idHistory) {
         if (historyService.existsById(idHistory)) {
             historyService.deleteHistory(idHistory);
