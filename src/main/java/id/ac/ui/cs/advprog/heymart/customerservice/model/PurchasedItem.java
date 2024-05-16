@@ -1,22 +1,18 @@
 package id.ac.ui.cs.advprog.heymart.customerservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import id.ac.ui.cs.advprog.heymart.customerservice.state.CartState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "TRANSACTIONS")
+@Table(name = "PURCHASED_ITEM")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class PurchasedItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +22,18 @@ public class Transaction {
     @Column(name = "USER_ID")
     private Long userId;
 
+    @Column(name = "PRODUCT_ID")
+    private String productId;
+
+    @Column(name = "AMOUNT")
+    private Long amount;
+
     @Column(name = "SUPERMARKET_ID")
-    private Long marketId;
+    private Long supermarketId;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "PRICE_PER_ITEM")
+    private Long pricePerItem;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "TRANSACTION_ID")
-    private List<PurchasedItem> purchasedItems;
+    @Column(name = "TRANSACTION_ID")
+    private Long transactionId;
 }
