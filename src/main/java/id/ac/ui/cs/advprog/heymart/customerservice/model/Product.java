@@ -27,15 +27,4 @@ public class Product {
     @Column(name = "SUPERMARKET_ID")
     private Long supermarketId;
 
-    @ManyToOne
-    @JoinColumn(name = "HISTORY_ID")
-    private History history;
-
-    public Product(String id, String productName, double productPrice, Long supermarketId) {
-        this.productId = id;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.supermarketId =supermarketId;
-    }
-
 }
