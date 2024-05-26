@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface HistoryRepository extends JpaRepository<History, Long> {
     Optional<List<History>> findByCustId(Long custId);
     Optional<List<History>> findBySupermarketId(Long supermarketId);
+
 }

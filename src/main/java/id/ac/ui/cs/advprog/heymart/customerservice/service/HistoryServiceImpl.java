@@ -17,24 +17,24 @@ public class HistoryServiceImpl implements HistoryService{
 
     @Override
     public History getHistoryById(Long id) {
-        return historyRepository.findById(id).get();
+        return historyRepository.findById(id).orElse(null);
     }
 
     @Override
-    public History addNewHistory(Long idhistory, Long custId, Long superMarketId, double totalPrice, List<Product> productList) {
-        History history = new History();
-        history.setCustId(custId);
-        history.setProductList(productList);
-        history.setTotalPrice(totalPrice);
-        history.setIdHistory(idhistory);
-        history.setSupermarketId(superMarketId);
-
+    public History addNewHistory(Long custId, Long supermarketId, double totalPrice, List<Product> productList) {
+        History history = new History.Builder()
+                .custId(custId)
+                .supermarketId(supermarketId)
+                .productList(productList)
+                .totalPrice(totalPrice)
+                .build();
         return historyRepository.save(history);
     }
 
     @Override
     public void deleteHistory(Long id) {
         historyRepository.deleteById(id);
+
     }
 
     @Override
@@ -62,6 +62,55 @@ public class HistoryServiceImpl implements HistoryService{
         historyByMarketId.forEach(history -> history.getProductList().size());
         return CompletableFuture.completedFuture(historyByMarketId);
     }
+
+
+//    @Override
+//    public History getHistoryById(Long id) {
+//        return historyRepository.findById(id).get();
+//    }
+//
+//    @Override
+//    public History addNewHistory(Long idhistory, Long custId, Long superMarketId, double totalPrice, List<Product> productList) {
+//        History history = new History();
+//        history.setCustId(custId);
+//        history.setProductList(productList);
+//        history.setTotalPrice(totalPrice);
+//        history.setIdHistory(idhistory);
+//        history.setSupermarketId(superMarketId);
+//
+//        return historyRepository.save(history);
+//    }
+//
+//    @Override
+//    public void deleteHistory(Long id) {
+//        historyRepository.deleteById(id);
+//    }
+//
+//    @Override
+//    public boolean existsById(Long id) {
+//        return historyRepository.existsById(id);
+//    }
+//
+//    @Override
+//    public CompletableFuture<List<History>> getAllHistory() {
+//        List<History> allHistory = historyRepository.findAll();
+//        allHistory.forEach(history -> history.getProductList().size());
+//        return CompletableFuture.completedFuture(allHistory);
+//    }
+//
+//    @Override
+//    public CompletableFuture<List<History>> getHistoryByCustId(Long custId) {
+//        List<History> historyByCustId = historyRepository.findByCustId(custId).orElse(List.of());
+//        historyByCustId.forEach(history -> history.getProductList().size());
+//        return CompletableFuture.completedFuture(historyByCustId);
+//    }
+//
+//    @Override
+//    public CompletableFuture<List<History>> getHistoryBySupermarketId(Long supermarketId) {
+//        List<History> historyByMarketId = historyRepository.findBySupermarketId(supermarketId).orElse(List.of());
+//        historyByMarketId.forEach(history -> history.getProductList().size());
+//        return CompletableFuture.completedFuture(historyByMarketId);
+//    }
 
 
 }

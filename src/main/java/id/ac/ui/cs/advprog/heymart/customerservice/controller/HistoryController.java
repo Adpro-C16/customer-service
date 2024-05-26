@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.heymart.customerservice.controller;
 
 import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
-import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryService;
+import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-
-
-
-
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/history")
 public class HistoryController {
 
-    private final HistoryService historyService;
+    private final HistoryServiceImpl historyService;
 
     @Autowired
-    public HistoryController(HistoryService historyService) {
+    public HistoryController(HistoryServiceImpl historyService) {
         this.historyService = historyService;
     }
 
@@ -44,13 +40,12 @@ public class HistoryController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addNewHistory(@RequestBody HashMap<String, Object> request) {
-        Long idHistory = Long.parseLong(request.get("idHistory").toString());
         Long custId = Long.parseLong(request.get("custId").toString());
         Long supermarketId = Long.parseLong(request.get("supermarketId").toString());
         double totalPrice = Double.parseDouble(request.get("totalPrice").toString());
         List<Product> productList = (List<Product>) request.get("productList");
 
-        History newHistory = historyService.addNewHistory(idHistory, custId, supermarketId, totalPrice, productList);
+        History newHistory = historyService.addNewHistory(custId, supermarketId, totalPrice, productList);
         return ResponseEntity.ok("Success add new history with id: " + newHistory.getIdHistory());
     }
 
@@ -86,7 +81,7 @@ public class HistoryController {
                 .exceptionally(this::handleException);
     }
 
-    private ResponseEntity<List<History>> handleException(Throwable throwable) {
+    ResponseEntity<List<History>> handleException(Throwable throwable) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(null);
     }

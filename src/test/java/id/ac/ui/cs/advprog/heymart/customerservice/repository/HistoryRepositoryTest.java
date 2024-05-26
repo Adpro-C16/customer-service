@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -20,68 +20,129 @@ public class HistoryRepositoryTest {
 
     @Mock
     private HistoryRepository historyRepository;
-    History history1;
-    History history2;
-    History history3;
-
-    public List<History> historyList;
-
-    @BeforeEach
-    void setUp(){
-
-        historyList = new ArrayList<>();
-
-        history1 = new History();
-        history1.setIdHistory(1L);
-        history1.setSupermarketId(1L);
-        history1.setCustId(1L);
-        history1.setTotalPrice(100.0);
-        historyList.add(history1);
-
-        history2 = new History();
-        history2.setIdHistory(2L);
-        history2.setSupermarketId(2L);
-        history2.setCustId(2L);
-        history2.setTotalPrice(150.0);
-        historyList.add(history2);
-
-        history3 = new History();
-        history3.setIdHistory(3L);
-        history3.setSupermarketId(3L);
-        history3.setCustId(3L);
-        history3.setTotalPrice(200.0);
-        historyList.add(history3);
-
-    }
 
     @Test
-    void testFindByCustId(){
+    void testFindByCustId() {
         Long custId = 1L;
-        List<History> expectedHistoryList = new ArrayList<>();
-        expectedHistoryList.add(historyList.get(0));
-        expectedHistoryList.add(historyList.get(1));
+        List<History> histories = new ArrayList<>();
+        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(histories));
 
-        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(expectedHistoryList));
-        Optional<List<History>> foundHistories = historyRepository.findByCustId(custId);
+        Optional<List<History>> actualHistories = historyRepository.findByCustId(custId);
 
-        assertEquals(expectedHistoryList, foundHistories.get());
+        assertEquals(histories, actualHistories.orElse(null));
+        verify(historyRepository, times(1)).findByCustId(custId);
+    }
+
+    @Test
+    void testFindBySupermarketId() {
+        Long supermarketId = 1L;
+        List<History> histories = new ArrayList<>();
+        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(histories));
+
+        Optional<List<History>> actualHistories = historyRepository.findBySupermarketId(supermarketId);
+
+        assertEquals(histories, actualHistories.orElse(null));
+        verify(historyRepository, times(1)).findBySupermarketId(supermarketId);
+    }
+
+    @Test
+    void testFindById(){
+        Long id = 1L;
+        History histories = new History.Builder().build();
+        when(historyRepository.findById(id)).thenReturn(Optional.of(histories));
+
+        Optional<History> actualHistory = historyRepository.findById(id);
+
+        assertEquals(histories, actualHistory.orElse(null));
+        verify(historyRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void testSavesHistory() {
+        History history = new History.Builder().build();
+        when(historyRepository.save(history)).thenReturn(history);
+
+        History savedHistory = historyRepository.save(history);
+
+        assertEquals(history, savedHistory);
+        verify(historyRepository, times(1)).save(history);
     }
 
 
     @Test
-    void testFindbySupermarketId(){
-        Long supermarketId = 2L;
-        List<History> expectedHistoryList = new ArrayList<>();
-        expectedHistoryList.add(historyList.get(0));
-        expectedHistoryList.add(historyList.get(2));
+    void existsByIdHistory() {
+        Long id = 1L;
+        when(historyRepository.existsById(id)).thenReturn(true);
 
-        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(expectedHistoryList));
-        Optional<List<History>> foundHistories = historyRepository.findBySupermarketId(supermarketId);
+        boolean exists = historyRepository.existsById(id);
 
-        assertEquals(expectedHistoryList, foundHistories.get());
-
+        assertTrue(exists);
+        verify(historyRepository, times(1)).existsById(id);
     }
 
+    @Test
+    void findAllHistories() {
+        List<History> histories = new ArrayList<>();
+        when(historyRepository.findAll()).thenReturn(histories);
 
+        List<History> actualHistories = historyRepository.findAll();
+
+        assertEquals(histories, actualHistories);
+        verify(historyRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testFindByCustIdNotExist() {
+        Long custId = 1L;
+        when(historyRepository.findByCustId(custId)).thenReturn(Optional.empty());
+
+        Optional<List<History>> actualHistories = historyRepository.findByCustId(custId);
+
+        assertFalse(actualHistories.isPresent());
+        verify(historyRepository, times(1)).findByCustId(custId);
+    }
+
+    @Test
+    void testFindBySupermarketIdNotExist() {
+        Long supermarketId = 1L;
+        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.empty());
+
+        Optional<List<History>> actualHistories = historyRepository.findBySupermarketId(supermarketId);
+
+        assertFalse(actualHistories.isPresent());
+        verify(historyRepository, times(1)).findBySupermarketId(supermarketId);
+    }
+
+    @Test
+    void testFindByIdNotExits() {
+        Long id = 1L;
+        when(historyRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<History> actualHistory = historyRepository.findById(id);
+
+        assertFalse(actualHistory.isPresent());
+        verify(historyRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void testFindByIdNotExist() {
+        Long id = 1L;
+        when(historyRepository.existsById(id)).thenReturn(false);
+
+        boolean exists = historyRepository.existsById(id);
+
+        assertFalse(exists);
+        verify(historyRepository, times(1)).existsById(id);
+    }
+
+    @Test
+    void testDeletehistoryById(){
+        Long id = 1L;
+        doNothing().when(historyRepository).deleteById(id);
+
+        historyRepository.deleteById(id);
+
+        verify(historyRepository, times(1)).deleteById(id);
+    }
 
 }

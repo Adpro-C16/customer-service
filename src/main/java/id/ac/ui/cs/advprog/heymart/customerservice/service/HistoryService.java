@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface HistoryService {
     History getHistoryById(Long id);
-    History addNewHistory(Long idHistory, Long ownerId, Long marketId, double totalPrice, List<Product> productList);
+    History addNewHistory( Long custId, Long supermarketId, double totalPrice, List<Product> productList);
     void deleteHistory(Long id);
     boolean existsById(Long id);
 
