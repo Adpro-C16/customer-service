@@ -3,13 +3,13 @@ package id.ac.ui.cs.advprog.heymart.customerservice.service;
 
 import id.ac.ui.cs.advprog.heymart.customerservice.model.History;
 import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
-import id.ac.ui.cs.advprog.heymart.customerservice.model.Transaction;
 import id.ac.ui.cs.advprog.heymart.customerservice.repository.HistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -19,8 +19,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -35,117 +34,112 @@ public class HistoryServiceTest {
     @Mock
     private HistoryRepository historyRepository;
 
-    public History history;
-    public List<Product> productList;
-
     @BeforeEach
     void setUp(){
-        productList = new ArrayList<>();
+        MockitoAnnotations.openMocks(this);
+    }
+    @Test
+    void testGetHistoryById() {
+        Long id = 1L;
+        History expectedHistory = new History.Builder().build();
+        when(historyRepository.findById(id)).thenReturn(Optional.of(expectedHistory));
 
+        History actualHistory = historyService.getHistoryById(id);
 
-        Product product1 = new Product("1","Product 1", 10.0, 6L);
-        productList.add(product1);
-
-        Product product2 = new Product("2", "Product 2", 20.0, 6L);
-        productList.add(product2);
-
-        Product product3 = new Product("3", "Product 3", 30.0, 6L);
-        productList.add(product3);
-
-
-        history = new History();
-        history.setIdHistory(100L);
-        history.setProductList(productList);
-        history.setCustId(5L);
-        history.setTotalPrice(60.0);
-        history.setSupermarketId(6L);
-
+        assertEquals(expectedHistory, actualHistory);
     }
 
     @Test
-    void testGetHistoryById(){
+    void getHistoryByIdNotExist() {
+        Long id = 1L;
+        when(historyRepository.findById(id)).thenReturn(Optional.empty());
 
-        History history = new History();
-        history.setIdHistory(100L);
+        History actualHistory = historyService.getHistoryById(id);
 
-        when(historyRepository.findById(100L)).thenReturn(Optional.of(history));
-
-        History result = historyService.getHistoryById(100L);
-
-        assertEquals(history, result);
+        assertNull(actualHistory);
     }
-
 
     @Test
     void testAddNewHistory() {
-        when(historyRepository.save(any())).thenReturn(history);
-        History result = historyService.addNewHistory(2L,1L, 1L, 250.0, productList);
-        assertEquals(history, result);
+        Long custId = 1L;
+        Long supermarketId = 2L;
+        List<Product> productList = new ArrayList<>();
+        double totalPrice = 100.0;
+        History expectedHistory = new History.Builder()
+                .custId(custId)
+                .supermarketId(supermarketId)
+                .productList(productList)
+                .totalPrice(totalPrice)
+                .build();
+        when(historyRepository.save(any(History.class))).thenReturn(expectedHistory);
+
+        History actualHistory = historyService.addNewHistory(custId, supermarketId, totalPrice, productList);
+
+        assertEquals(expectedHistory, actualHistory);
+        verify(historyRepository, times(1)).save(any(History.class));
     }
 
     @Test
     void testDeleteHistory() {
-        // Calling the method under test
-        historyService.deleteHistory(1L);
 
-        // Verifying that the deleteById method of the repository was called once with the correct argument
+        historyService.deleteHistory(1L);
         verify(historyRepository).deleteById(1L);
     }
 
+
     @Test
     void testExistsById() {
+        Long id = 1L;
+        when(historyRepository.existsById(id)).thenReturn(true);
 
-        when(historyRepository.existsById(1L)).thenReturn(true);
-        boolean result = historyService.existsById(1L);
-        assertTrue(result);
+        boolean exists = historyService.existsById(id);
+
+        assertTrue(exists);
     }
 
     @Test
-    public void testGetAllHistory() throws ExecutionException, InterruptedException {
-        History history1 = new History();
-        History history2 = new History();
+    void testExistsByIdNotExist() {
+        Long id = 1L;
+        when(historyRepository.existsById(id)).thenReturn(false);
 
-        List<History> histories = Arrays.asList(history1, history2);
+        boolean exists = historyService.existsById(id);
 
-        when(historyRepository.findAll()).thenReturn(histories);
-
-        CompletableFuture<List<History>> future = historyService.getAllHistory();
-        List<History> result = future.get();
-
-        assertEquals(histories, result);
+        assertFalse(exists);
     }
 
     @Test
-    public void testGetHistoryByCustId() throws ExecutionException, InterruptedException {
+    void testGetAllHistory() {
+        List<History> expectedHistories = new ArrayList<>();
+        when(historyRepository.findAll()).thenReturn(expectedHistories);
+
+        CompletableFuture<List<History>> futureHistories = historyService.getAllHistory();
+        List<History> actualHistories = futureHistories.join();
+
+        assertEquals(expectedHistories, actualHistories);
+    }
+
+    @Test
+    void testGetHistoryByCustId() {
         Long custId = 1L;
-        History history1 = new History();
-        History history2 = new History();
+        List<History> expectedHistories = new ArrayList<>();
+        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(expectedHistories));
 
-        List<History> histories = Arrays.asList(history1, history2);
+        CompletableFuture<List<History>> futureHistories = historyService.getHistoryByCustId(custId);
+        List<History> actualHistories = futureHistories.join();
 
-        when(historyRepository.findByCustId(custId)).thenReturn(Optional.of(histories));
-
-        CompletableFuture<List<History>> future = historyService.getHistoryByCustId(custId);
-        List<History> result = future.get();
-
-        assertEquals(histories, result);
+        assertEquals(expectedHistories, actualHistories);
     }
 
     @Test
-    public void testGetHistoryBySupermarketId() throws ExecutionException, InterruptedException {
-        Long supermarketId = 2L;
-        History history1 = new History();
-        History history2 = new History();
+    void getHistoryBySupermarketId() {
+        Long supermarketId = 1L;
+        List<History> expectedHistories = new ArrayList<>();
+        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(expectedHistories));
 
-        List<History> histories = Arrays.asList(history1, history2);
+        CompletableFuture<List<History>> futureHistories = historyService.getHistoryBySupermarketId(supermarketId);
+        List<History> actualHistories = futureHistories.join();
 
-        when(historyRepository.findBySupermarketId(supermarketId)).thenReturn(Optional.of(histories));
-
-        CompletableFuture<List<History>> future = historyService.getHistoryBySupermarketId(supermarketId);
-        List<History> result = future.get();
-
-        assertEquals(histories, result);
+        assertEquals(expectedHistories, actualHistories);
     }
-
 
 }

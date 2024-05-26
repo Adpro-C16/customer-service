@@ -5,10 +5,12 @@ import id.ac.ui.cs.advprog.heymart.customerservice.model.Product;
 
 import id.ac.ui.cs.advprog.heymart.customerservice.service.HistoryServiceImpl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,14 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 
 
@@ -61,32 +67,21 @@ public class HistoryControllerTest {
 
     @Test
     public void testAddNewHistory() {
-        Long custId = 1L;
-        Long supermarketId = 2L;
-        double totalPrice = 200.0;
         Long idHistory = 3L;
         Product product = new Product();
         List<Product> productList = new ArrayList<>();
         productList.add(product);
 
-        History history= new History(idHistory,supermarketId,custId, totalPrice, productList);
 
+        History history = new History.Builder().build();
+        when(historyService.existsById(idHistory)).thenReturn(true);
+        when(historyService.getHistoryById(idHistory)).thenReturn(history);
 
-        when(historyService.addNewHistory(idHistory, custId, supermarketId, totalPrice, productList)).thenReturn(history);
+        ResponseEntity<?> response = historyController.getHistoryById(idHistory);
 
-        HashMap<String, Object> request = new HashMap<>();
-        request.put("idHistory", idHistory);
-        request.put("custId", custId);
-        request.put("supermarketId", supermarketId);
-        request.put("totalPrice", totalPrice);
-        request.put("productList", productList);
-
-
-        ResponseEntity<?> response = historyController.addNewHistory(request);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Success add new history with id: " + history.getIdHistory(), response.getBody());
+        assertEquals(history, response.getBody());
     }
-
 
     @Test
     public void testDeleteHistory() {
