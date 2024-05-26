@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "id.ac.ui.cs.advprog.heymart"
@@ -15,6 +16,14 @@ java {
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "Adpro-C16_customer-service")
+        property("sonar.organization", "adpro-c16")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 
@@ -79,3 +88,7 @@ afterEvaluate {
         }
     }
 }
+
+
+
+
