@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "id.ac.ui.cs.advprog.heymart"
@@ -18,6 +19,14 @@ configurations {
     }
 }
 
+sonarqube {
+    properties {
+        property("sonar.projectKey", "Adpro-C16_customer-service")
+        property("sonar.organization", "adpro-c16")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -27,6 +36,7 @@ val junitJupiterVersion = "5.9.1"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -78,3 +88,7 @@ afterEvaluate {
         }
     }
 }
+
+
+
+

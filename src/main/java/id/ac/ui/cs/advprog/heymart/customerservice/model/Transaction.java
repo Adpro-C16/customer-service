@@ -31,7 +31,7 @@ public class Transaction {
 
     @Column(name = "comment")
     private String comment;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "TRANSACTION_ID")
     private List<PurchasedItem> purchasedItems;
